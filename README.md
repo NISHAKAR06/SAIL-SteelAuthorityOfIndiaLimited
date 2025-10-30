@@ -1,8 +1,13 @@
 # 🚂 AI/ML-based Decision Support System for Rake Formation Optimization (SAIL)
 
 ## 🧭 Overview
-This project develops an **AI/ML-based Decision Support System (DSS)** for optimizing **rake formation strategies** in large-scale logistics operations.  
+This project develops an **AI/ML-based Decision Support System (DSS)** for optimizing **rake formation strategies** in large-scale logistics operations.
 The first implementation focuses on **movements from Bokaro Steel Plant (BSP)** to **CMO stockyards and customer destinations**.
+
+**Project Name**: SAIL DSS  
+**API Name**: RakeVision AI API  
+**Version**: 1.0.0  
+**Repository**: [SAIL-SteelAuthorityOfIndiaLimited](https://github.com/Nehasasikumar/SAIL-SteelAuthorityOfIndiaLimited)
 
 ---
 
@@ -50,28 +55,28 @@ The system has to:
 ---
 
 ## ⚙️ Problem Context
-In large steel logistics, **rake formation** involves grouping wagons and assigning materials from plants or stockyards to customer destinations.  
+In large steel logistics, **rake formation** involves grouping wagons and assigning materials from plants or stockyards to customer destinations.
 Currently, this process is **manual**, leading to:
-- Delayed dispatches  
-- Underutilized rakes  
-- Increased demurrage and freight costs  
-- Sub-optimal material allocation  
+- Delayed dispatches
+- Underutilized rakes
+- Increased demurrage and freight costs
+- Sub-optimal material allocation
 
 This system automates and optimizes rake formation using **AI/ML models** that consider:
-- Material availability  
-- Customer order priorities  
-- Rake/wagon availability  
-- Loading point constraints  
-- Route restrictions  
+- Material availability
+- Customer order priorities
+- Rake/wagon availability
+- Loading point constraints
+- Route restrictions
 
 ---
 
 ## 🎯 Objective
 Build a **web-based AI/ML DSS** that dynamically:
-- Suggests optimal rake formation and dispatch plans  
-- Minimizes total logistics costs  
-- Improves resource utilization  
-- Enhances on-time delivery performance  
+- Suggests optimal rake formation and dispatch plans
+- Minimizes total logistics costs
+- Improves resource utilization
+- Enhances on-time delivery performance
 
 ---
 
@@ -83,6 +88,35 @@ The system follows a modern multi-tier architecture:
 - **Backend Layer**: FastAPI-based server handling business logic and API endpoints
 - **ML Engine Layer**: Python-based optimization engine using Scikit-learn and PyTorch
 - **Data Layer**: Database system (PostgreSQL/MongoDB) storing all application data
+
+### Technology Stack Details
+
+#### Backend (FastAPI)
+```txt
+FastAPI >= 0.100.0
+Uvicorn >= 0.23.0
+SQLAlchemy >= 2.0.0
+Pydantic >= 2.0.0
+Alembic >= 1.10.0
+Scikit-learn >= 1.2.0
+NumPy >= 1.20.0
+Pandas >= 2.0.0
+OR-Tools >= 9.0.0
+```
+- **OS Support**: Windows (+WSL2), Linux, macOS
+- **Python Version**: 3.8+
+- **Database**: PostgreSQL (production) / SQLite (development)
+
+#### Frontend (React + TypeScript)
+```txt
+React 18.3.1
+TypeScript 5.8.3
+Vite 5.4.19
+TailwindCSS 3.4.17
+Shadcn/UI (various components)
+Framer Motion 11.18.2
+React Query 5.83.0
+```
 
 ---
 
@@ -98,382 +132,348 @@ The system follows a modern multi-tier architecture:
 
 ---
 
-## 🗂️ Folder Structure
-
-The project follows a well-organized folder structure:
-
-### Backend
-- **app/**: Main application directory
-  - **core/**: Core configuration and database setup
-  - **models/**: Data models for inventory, orders, rakes, etc.
-  - **routes/**: API endpoint definitions by feature
-  - **schemas/**: Pydantic data validation schemas
-  - **services/**: Business logic implementation
-  - **ml/**: Machine learning models and algorithms
-  - **utils/**: Helper functions and utilities
-
-### Frontend
-- **src/**: Source code directory
-  - **components/**: Reusable UI components
-  - **pages/**: Feature-specific page components
-  - **hooks/**: Custom React hooks
-  - **lib/**: Utility functions and API clients
-  - **assets/**: Static assets and resources
-
----
-
-## 🧠 Backend (FastAPI + ML Integration)
-
-### 🔹 Tech Stack & Architecture
-- **FastAPI** – High-performance API framework with automatic OpenAPI documentation
-- **SQLite/PostgreSQL** – Relational database for transactional data storage
-- **SQLAlchemy** – ORM for database abstraction and model relationships
-- **Scikit-learn / PyTorch** – ML model training, optimization, and inference
-- **Pandas, NumPy** – Data processing, transformation, and analysis
-- **WebSockets** – Real-time bidirectional communication for simulations
-- **Pydantic** – Data validation and settings management
-- **Pytest** – Comprehensive test suite for API and ML components
-- **Alembic** – Database migrations and versioning
-- **Logging** – Structured logging with rotation and severity levels
-
-### 🔹 Core Features
-
-#### ① Advanced AI/ML Integration
-- **Rake Optimization Engine**: Uses linear programming to solve complex allocation problems
-- **Cost Prediction Models**: ML regression models to predict transport costs based on historical data
-- **ETA Predictor**: Time-series forecasting for accurate arrival time predictions
-- **Anomaly Detection**: Identifies unusual patterns in logistics operations
-- **Recommendation System**: Suggests optimal rake formations based on multiple parameters
-
-#### ② Real-time Simulation & Monitoring
-- **Live Simulation**: WebSocket-based visualization of rake movements
-- **Digital Twin**: Virtual representation of the entire logistics network
-- **Real-time Alerts**: Instant notifications about delays or issues
-- **Performance Monitoring**: Continuous tracking of KPIs and optimization metrics
-- **Historical Playback**: Review past operations and decisions
-
-#### ③ Comprehensive Data Management
-- **Order Management**: End-to-end tracking of customer orders
-- **Inventory System**: Real-time visibility of materials across stockyards
-- **Rake Management**: Complete tracking of rake status, location, and composition
-- **Production Integration**: Forecasting based on production schedules
-- **Loading Point Management**: Monitoring capacity and utilization
-
-### 🔹 API Endpoints
-
-#### Core Business Logic APIs
-
-| Endpoint | Method | Description |
-|-----------|--------|-------------|
-| `/api/dashboard/overview` | GET | Comprehensive system metrics with customizable time ranges |
-| `/api/dashboard/kpis` | GET | Key performance indicators with historical trends |
-| `/api/orders/` | GET/POST | Retrieve or add customer orders with priority levels |
-| `/api/orders/{order_id}` | GET/PUT/DELETE | Manage specific order details and status |
-| `/api/orders/pending` | GET | List all pending orders with priority scoring |
-| `/api/rake/` | GET/POST | Manage rake information and availability |
-| `/api/rake/{rake_id}` | GET/PUT | Get or update specific rake details |
-| `/api/rake/history/{rake_id}` | GET | Historical movements and allocations for a rake |
-| `/api/rake/optimize` | POST | Trigger AI optimization with customizable parameters |
-| `/api/rake/optimize/scenarios` | POST | Generate multiple optimization scenarios for comparison |
-| `/api/inventory/stockyards` | GET | Comprehensive stockyard inventory with filtering |
-| `/api/inventory/stockyards/{location_id}` | GET/PUT | Manage specific stockyard details |
-| `/api/inventory/forecast` | GET | Inventory forecast based on orders and production |
-
-#### Advanced Analytics & AI APIs
-
-| Endpoint | Method | Description |
-|-----------|--------|-------------|
-| `/api/simulation/live` | GET | Real-time simulation status and controls |
-| `/api/simulation/config` | GET/PUT | Configure simulation parameters |
-| `/api/simulation/scenarios` | POST | Create custom simulation scenarios |
-| `/api/ai/recommendations` | GET | AI-powered insights and recommendations |
-| `/api/ai/cost-analysis` | GET | Cost breakdown and optimization opportunities |
-| `/api/ai/anomalies` | GET | Detected anomalies and suggested corrective actions |
-| `/api/ai/what-if` | POST | Scenario planning with parameter adjustments |
-| `/api/reports/summary` | GET | Generate comprehensive summary reports |
-| `/api/reports/efficiency` | GET | Detailed efficiency metrics by location/time |
-| `/api/reports/scheduled` | POST | Schedule automated report generation |
-
-#### Real-time Communication
-
-| Endpoint | Type | Description |
-|-----------|--------|-------------|
-| `/ws/simulation` | WebSocket | Real-time simulation updates and control |
-| `/ws/alerts` | WebSocket | Instant system alerts and notifications |
-| `/ws/dashboard` | WebSocket | Live-updating dashboard metrics |
-
-### 🔹 Data Flow Architecture
-
-1. **Data Ingestion Layer**:
-   - Order data enters via API endpoints or bulk imports
-   - Inventory updates from plant systems via scheduled jobs
-   - Rake availability from railway systems via integrations
-   - Historical data loaded for model training
-
-2. **Processing & Optimization Layer**:
-   - Data validation and transformation using Pydantic models
-   - Business logic application in service modules
-   - ML models execution for predictions and optimizations
-   - Results caching for performance optimization
-
-3. **Output & Communication Layer**:
-   - REST API responses for frontend dashboards
-   - WebSocket streams for real-time updates
-   - Report generation in multiple formats (JSON, CSV, PDF)
-   - Alerts and notifications via WebSockets and optional email
-
-### 🔹 ML Model Pipeline
-
-1. **Data Preprocessing**: Cleaning, normalization, and feature engineering
-2. **Model Training**: Supervised learning for cost prediction, time-series for ETA
-3. **Optimization Engine**: Linear programming with multiple constraint handling
-4. **Inference Pipeline**: Fast model serving with caching
-5. **Feedback Loop**: Continuous model improvement based on actual outcomes
-
----
-
-## ⚛️ Frontend (React + TypeScript + Vite)
-
-### 🔹 Tech Stack & Architecture
-
-#### Core Technologies
-- **React 18** with **TypeScript** - Modern component-based UI with type safety
-- **Vite** - Lightning-fast build tool & dev server with HMR
-- **TailwindCSS** - Utility-first CSS framework for responsive design
-- **Shadcn/UI** - Accessible, customizable component library
-- **React Router v6** - Declarative routing with lazy loading
-- **React Query** - Data fetching, caching, and state management
-- **Zustand** - Lightweight state management
-- **React Hook Form** - Performant form handling with validation
-
-#### UI/UX & Visualization
-- **Framer Motion** - Advanced animations and transitions
-- **Recharts** - Responsive and customizable chart library
-- **react-map-gl** - Interactive maps for geographical data
-- **D3.js** - Complex custom visualizations
-- **react-virtual** - Virtualized lists for performance
-- **DND Kit** - Drag-and-drop interfaces for planning
-
-#### Communication & Real-time
-- **WebSockets** - Real-time bidirectional communication
-- **Axios** - HTTP client with interceptors
-- **SWR** - React Hooks for data fetching with stale-while-revalidate
-- **React Error Boundary** - Graceful error handling
-
-### 🔹 Key Features & Modules
-
-#### ① Interactive Dashboards & Reporting
-- **Executive Dashboard**: High-level KPIs and decision metrics
-- **Operational Dashboard**: Detailed daily metrics for operations
-- **Custom Report Builder**: Create tailored reports with drag-and-drop
-- **Multi-dimensional Analytics**: Slice and dice data across various parameters
-- **Export Functionality**: Download reports in PDF, Excel, and CSV formats
-- **Scheduled Reports**: Configure automatic report generation and delivery
-
-#### ② Advanced Visualization & Simulation
-- **Interactive Network Map**: Geographic visualization of the logistics network
-- **Real-time Rake Tracking**: Live monitoring of rake positions and status
-- **Stockyard Visualization**: Heat maps showing inventory levels and distribution
-- **Live Simulation**: Time-controllable simulation of rake movements
-- **What-if Scenario Builder**: Visual tool for testing alternative strategies
-- **Timeline Analysis**: Historical view of operations and decisions
-
-#### ③ Optimization & Decision Support
-- **Optimization Dashboard**: Configure and run optimization algorithms
-- **Constraint Builder**: Visually define operational constraints
-- **Decision Comparison**: Side-by-side comparison of alternative solutions
-- **Cost Impact Analysis**: Visualize cost implications of different decisions
-- **AI Recommendation Cards**: Actionable insights with supporting data
-- **Manual Override**: Ability to modify AI recommendations with justification
-
-#### ④ User Experience & Productivity
-- **Role-based UI**: Tailored interfaces for different user roles
-- **Dark/Light Theme**: Accessibility and user preference support
-- **Mobile Responsive**: Optimized for tablets and mobile devices
-- **Progressive Web App**: Installable with offline capabilities
-- **Keyboard Navigation**: Full keyboard shortcut support
-- **Guided Tours**: Interactive onboarding for new users
-- **Notification Center**: Centralized alerts and system messages
-
-### 🔹 Main Pages & Functionality
-
-#### 🟦 Dashboard Module
-
-| Page | Description | Key Features |
-|------|------------|--------------|
-| **Dashboard Overview** | Central command center with key metrics | Interactive KPI cards, time range selectors, alert notifications |
-| **Performance Analytics** | Detailed performance metrics | Customizable charts, trend analysis, benchmark comparisons |
-| **System Health** | System status and monitoring | Component health indicators, uptime tracking, error logs |
-
-#### 🟧 Inventory & Order Management
-
-| Page | Description | Key Features |
-|------|------------|--------------|
-| **Inventory Overview** | Complete stockyard inventory status | Material type filters, location views, threshold alerts |
-| **Order Management** | Comprehensive order tracking system | Order creation, priority assignment, status tracking, history |
-| **Production Planning** | Integration with production systems | Production schedule view, capacity planning, maintenance integration |
-| **Stockyard Management** | Detailed stockyard operations | Space utilization visualization, material movement tracking, capacity planning |
-
-#### 🟩 Optimization & Planning
-
-| Page | Description | Key Features |
-|------|------------|--------------|
-| **Rake Allocation** | AI-driven rake assignment interface | Drag-and-drop planning, constraint visualization, cost impact analysis |
-| **Cost Optimization** | Tools for cost reduction analysis | Cost breakdown charts, efficiency metrics, saving opportunities |
-| **Route Planning** | Route optimization and scheduling | Interactive map, alternative routes, time estimations |
-| **Loading Point Management** | Loading point capacity and scheduling | Utilization charts, bottleneck analysis, scheduling interface |
-
-#### 🟪 AI & Simulation
-
-| Page | Description | Key Features |
-|------|------------|--------------|
-| **AI Recommendations** | Smart insights and suggestions | Actionable cards, impact metrics, implementation guidance |
-| **Live Simulation** | Real-time logistics simulation | Playback controls, parameter adjustments, event triggering |
-| **Scenario Testing** | What-if analysis tools | Parameter configuration, comparative visualization, optimal path highlighting |
-| **Predictive Analytics** | Forward-looking forecasts | Demand forecasting, capacity prediction, constraint analysis |
-
-### 🔹 Advanced Component Features
-
-#### WebSocket Integration for Real-time Updates
-
-The system implements a robust WebSocket connection handling mechanism for real-time data exchange:
-- Custom WebSocket hook with automatic reconnection logic
-- Type-safe message handling with structured payloads
-- Connection state management and error handling
-- Heartbeat mechanism to maintain connection health
-- Support for both string and object message formats
-
-#### Interactive Optimization Dashboard
-
-The simulation control panel provides an intuitive interface for logistics planning:
-- Speed control with granular adjustment options
-- Multiple simulation modes (realistic, optimized, custom)
-- Configurable operational constraints
-- Real-time feedback on connection status
-- Action controls for simulation management (start, pause, reset)
-- Toast notifications for important events and errors
-
----
-
-## 🧮 ML & AI Components
-
-### 🔹 Optimization Engine Architecture
-
-The core of the system is built around several interconnected ML and optimization components:
-
-#### ① Multi-Objective Optimization Framework
-
-**Mathematical Formulation**:
-
-The system uses mixed-integer linear programming (MILP) to optimize rake formations, minimizing:
+## 🗂️ Complete Folder Structure
 
 ```
-Total Cost = α₁(Loading Cost) + α₂(Transport Cost) + α₃(Penalty/Delay Cost) + α₄(Idle Capacity Cost)
+SAIL-SteelAuthorityOfIndiaLimited/
+├── .gitignore                           # Git ignore patterns
+├── README.md                           # Project documentation (this file)
+├── start_dev.bat                       # Windows development startup script
+├── backend/                            # Backend application directory
+│   ├── requirements.txt                # Python dependencies
+│   └── app/
+│       ├── main.py                     # FastAPI application entry point
+│       ├── core/
+│       │   ├── config.py               # Application configuration
+│       │   └── database.py             # Database initialization and connection
+│       ├── ml/                         # Machine Learning components
+│       │   ├── cost_model.py          # Cost prediction models
+│       │   ├── eta_predictor.py       # ETA prediction algorithms
+│       │   ├── rake_optimizer.py      # Core optimization engine
+│       │   └── models/                # Serialized ML models
+│       ├── models/                    # Data models (SQLAlchemy)
+│       │   ├── inventory.py           # Inventory data models
+│       │   ├── order.py               # Order management models
+│       │   ├── rake.py                # Rake allocation models
+│       │   ├── cost_parameters.py     # Cost calculation models
+│       │   ├── route_transport.py     #Transport route models
+│       │   └── optimization.py        #Optimization result models
+│       ├── routes/                    # API endpoint definitions
+│       │   ├── dashboard.py           # Dashboard analytics endpoints
+│       │   ├── rake_allocation.py     # Rake allocation API endpoints
+│       │   ├── order_management.py    # Order management endpoints
+│       │   ├── inventory.py           # Inventory management endpoints
+│       │   ├── ai_recommendations.py  # AI recommendation endpoints
+│       │   ├── live_simulation.py     # Live simulation endpoints
+│       │   ├── reports.py             # Reporting endpoints
+│       │   └── static_data.py         # Static data endpoints
+│       ├── services/                  # Business logic layer
+│       │   ├── dashboard_service.py   # Dashboard business logic
+│       │   ├── rake_service.py        # Rake management services
+│       │   ├── order_service.py       # Order processing logic
+│       │   ├── inventory_service.py   # Inventory operations
+│       │   ├── optimize_service.py    # Optimization services
+│       │   ├── ai_service.py          # AI/ML service layer
+│       │   ├── cost_service.py        # Cost calculation services
+│       │   ├── report_service.py      # Report generation logic
+│       │   ├── route_service.py       # Route management services
+│       │   └── simulation_service.py  # Simulation services
+│       ├── schemas/                   # Pydantic data validation schemas
+│       │   ├── inventory_schema.py    # Inventory schemas
+│       │   ├── order_schema.py        # Order schemas
+│       │   ├── rake_schema.py         # Rake schemas
+│       │   ├── optimize_schema.py     # Optimization schemas
+│       │   └── report_schema.py       # Report schemas
+│       ├── utils/                     # Utility functions
+│       │   ├── helpers.py             # General helper functions
+│       │   └── logger.py              # Logging utilities
+│       ├── test_*.py                  # Test files
+│       ├── clean_csv.py               # CSV cleaning utilities
+│       ├── cloud_seeder.py            # Cloud database seeding
+│       └── statics/                   # Static data files
+│           ├── cost_parameters.csv    # Cost parameter data
+│           ├── customer_orders.csv    # Sample customer orders
+│           ├── production_inventory.csv # Production inventory data
+│           ├── rake_wagon_details.csv # Rake and wagon details
+│           └── route_transport_info_updated.csv # Route information
+└── frontend/                          # Frontend application directory
+    ├── package.json                   # NPM dependencies and scripts
+    ├── vite.config.ts                 # Vite build configuration
+    ├── tailwind.config.ts             # TailwindCSS configuration
+    ├── tsconfig*.json                 # TypeScript configurations
+    ├── public/                        # Static public assets
+    ├── src/
+    │   ├── main.tsx                   # React application entry point
+    │   ├── App.tsx                    # Main application component
+    │   ├── App.css                    # Global CSS styles
+    │   ├── index.css                  # CSS imports and variables
+    │   ├── vite-env.d.ts              # Vite type definitions
+    │   ├── assets/                    # Static assets (images, etc.)
+    │   │   └── railway-bg.jpg         # Railway background image
+    │   ├── components/                # Reusable React components
+    │   │   ├── Layout.tsx             # Main layout component
+    │   │   ├── MetricCard.tsx         # Metrics display component
+    │   │   ├── ThemeToggle.tsx        # Theme switcher
+    │   │   ├── DatabaseSeeder.tsx     # Database seeding component
+    │   │   └── ui/                    #UI component library (Shadcn)
+    │   │       └── *.tsx              # Individual UI components
+    │   ├── pages/                     # Route-specific page components
+    │   │   ├── Dashboard.tsx          # Dashboard page
+    │   │   ├── Orders.tsx             # Order management page
+    │   │   ├── Inventory.tsx          # Inventory dashboard
+    │   │   ├── RakeAllocation.tsx     # Rake allocation interface
+    │   │   ├── CostOptimization.tsx   # Cost optimization page
+    │   │   ├── AIRecommendations.tsx  # AI recommendations page
+    │   │   ├── LiveSimulation.tsx     # Live simulation interface
+    │   │   ├── LoadingPoints.tsx      # Loading points management
+    │   │   ├── Production.tsx         # Production management
+    │   │   └── NotFound.tsx           # 404 error page
+    │   ├── hooks/                     # Custom React hooks
+    │   │   ├── use-mobile.tsx         # Mobile detection hook
+    │   │   ├── use-toast.ts           # Toast notification hook
+    │   │   └── useWebSocket.ts        # WebSocket connection hook
+    │   ├── lib/                       # Utility libraries
+    │   │   ├── api.ts                 # API client configuration
+    │   │   └── utils.ts               # Utility functions
+    │   └── vite-env.d.ts              # Vite environment types
 ```
 
-Subject to constraints:
+---
+
+## 🧮 ML & Optimization Engine Details
+
+### Core Optimization Algorithm
+
+The system solves the rake formation problem using **Mixed Integer Linear Programming (MILP)**:
+
+**Objective Function:**
+```
+Minimize: α₁ × Loading Cost + α₂ × Transport Cost + α₃ × Delay Penalty + α₄ × Idle Capacity
+```
+
+**Constraints:**
 - Material availability constraints
-- Rake capacity constraints (min/max wagon loading)
-- Route restrictions and loading point compatibility
-- Delivery SLAs and priority weighting
-- Loading point capacity and operating hours
-- Stockyard inventory balance equations
-- Multi-destination rake formation rules
+- Rake capacity limitations
+- Loading point capacity restrictions
+- Route compatibility requirements
+- Delivery priority weightings
 
-Where α₁, α₂, α₃, and α₄ are configurable weight coefficients that can be adjusted to prioritize different business objectives.
+### ML Models Pipeline
 
-#### ② Predictive Models
+```txt
+1. Data Collection
+   ├── Historical rake movements
+   ├── Order fulfillment records
+   ├── Cost data by route/type
+   └── Operational metrics
 
-The system incorporates multiple predictive models to enhance decision-making:
+2. Feature Engineering
+   ├── Material type encoding
+   ├── Temporal features (season/month)
+   ├── Route complexity metrics
+   └── Capacity utilization ratios
 
-| Model | Purpose | Techniques | Input Features | Output |
-|-------|---------|------------|----------------|--------|
-| **Cost Predictor** | Predict transport costs | XGBoost Regression | Distance, material type, route characteristics, fuel prices | Cost per ton-km |
-| **ETA Predictor** | Forecast arrival times | LSTM Neural Network | Historical transit times, route congestion, seasonal patterns | Estimated arrival time with confidence interval |
-| **Demand Forecaster** | Predict future orders | Prophet + ARIMA | Historical orders, seasonality, customer patterns, market indicators | 7/30/90 day demand forecast by material type |
-| **Anomaly Detector** | Identify logistic inefficiencies | Isolation Forest | Operational metrics, loading times, cost patterns | Anomaly score and classification |
-| **Inventory Optimizer** | Recommend inventory levels | Reinforcement Learning | Demand patterns, production capacity, storage costs | Optimal inventory levels by location |
+3. Model Training
+   ├── Cost Predictor (XGBoost)
+   ├── ETA Estimator (LSTM)
+   ├── Demand Forecaster (Prophet)
+   └── Anomaly Detector (Isolation Forest)
 
-### 🔹 Advanced Techniques & Implementation
+4. Optimization Engine
+   ├── Constraint definition
+   ├── Multi-objective formulation
+   ├── Solution finding (OR-Tools)
+   └── Fallback heuristics
+```
 
-#### Core ML/AI Technologies
+---
 
-- **Mathematical Optimization**:
-  - OR-Tools for large-scale MILP problems
-  - PuLP for constraint formulation
-  - Custom heuristics for near-optimal solutions within time constraints
-  - Warm starting from previous solutions to speed up convergence
+## 🚀 Installation & Setup Guide
 
-- **Neural Network Models**:
-  - PyTorch for deep learning models with CUDA acceleration
-  - LSTM networks for time-series prediction of ETA and demand
-  - Graph Neural Networks for network flow optimization
-  - Attention mechanisms for handling sequential decision processes
+### Prerequisites
 
-- **Traditional ML Approaches**:
-  - Ensemble methods (XGBoost, Random Forest) for regression tasks
-  - Clustering algorithms for pattern recognition in order batching
-  - Feature engineering pipeline with domain-specific transformations
-  - Bayesian optimization for hyperparameter tuning
+#### System Requirements
+- **Operating System**: Windows 11, Linux, macOS
+- **Python**: Version 3.8 or higher
+- **Node.js**: Version 16 or higher
+- **Git**: Version control system
+- **Database**: PostgreSQL (optional, SQLite included for dev)
 
-#### Model Training & Deployment Flow
+#### Hardware Recommendations
+- **RAM**: Minimum 8GB, Recommended 16GB
+- **Storage**: 100GB for data and models
+- **Processor**: Multi-core CPU (4+ cores)
 
-1. **Data Collection & Preprocessing**:
-   - Historical rake movements from railway systems
-   - Order data from ERP systems
-   - Stockyard inventory transactions
-   - Weather and seasonal data for external factors
-   - Feature engineering using domain knowledge
+### Step 1: Clone the Repository
 
-2. **Model Training Pipeline**:
-   - Automated data validation and cleaning
-   - Train/validation/test splitting with time-series awareness
-   - Hyperparameter optimization using Bayesian methods
-   - Cross-validation strategies appropriate for time series
-   - Comprehensive model evaluation metrics
+```bash
+git clone https://github.com/Nehasasikumar/SAIL-SteelAuthorityOfIndiaLimited.git
+cd SAIL-SteelAuthorityOfIndiaLimited
+```
 
-3. **Deployment & Serving**:
-   - Model versioning and tracking using MLflow
-   - Containerized model serving with FastAPI endpoints
-   - A/B testing framework for model improvements
-   - Warm-up strategies for optimization problems
-   - Caching mechanisms for frequent scenario evaluations
+### Step 2: Backend Setup
 
-4. **Continuous Improvement**:
-   - Feedback loop from actual outcomes
-   - Automated retraining based on performance degradation
-   - Concept drift detection for changing patterns
-   - Active learning for improved prediction accuracy
+```bash
+# Navigate to backend directory
+cd backend
 
-### 🔹 Key ML Components & Files
+# Create virtual environment (recommended)
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux/macOS
+source venv/bin/activate
 
-The ML subsystem consists of several specialized components:
+# Install dependencies
+pip install -r requirements.txt
 
-- **Cost Prediction Module**: Transport cost estimation models
-- **ETA Prediction System**: Arrival time forecasting with confidence intervals
-- **Rake Optimization Engine**: Core algorithmic optimization system
-- **Demand Forecasting**: Future order volume prediction
-- **Inventory Optimization**: Smart inventory level recommendations
-- **Anomaly Detection**: Identification of logistics inefficiencies
+# Initialize database (creates database.db if using SQLite)
+python app/main.py
+```
 
-These components are supported by utility modules for feature engineering, model evaluation metrics, and visualization tools. The system maintains serialized model files for each prediction component, enabling rapid loading and inference.
+### Step 3: Frontend Setup
 
-### 🔹 Optimization Algorithm Overview
+```bash
+# Navigate to frontend directory
+cd ../frontend
 
-The system utilizes a sophisticated multi-objective optimization approach for rake formation and allocation:
+# Install dependencies
+npm install
 
-1. **Model Initialization**: Creates a mathematical model with decision variables
-2. **Constraint Definition**: Applies multiple business and operational constraints
-   - Rake capacity constraints for different wagon types
-   - Material availability limits across stockyards
-   - Loading point capacity and scheduling constraints
-   - Order fulfillment requirements and priorities
-3. **Objective Function**: Multi-component cost minimization with configurable weights
-   - Loading costs based on equipment and labor
-   - Transport costs considering distance and fuel
-   - Penalty costs for delays and priority violations
-   - Idle capacity costs for underutilized assets
-4. **Solution Process**: Solves the optimization problem with time limits
+# Create environment file
+cp .env.example .env
+
+# Start development server
+npm run dev
+```
+
+### Step 4: Environment Configuration
+
+#### Backend Configuration (`backend/app/core/config.py`)
+
+```python
+# Production settings
+DATABASE_URL = "postgresql://user:pass@host:port/db"
+ENVIRONMENT = "production"
+DEBUG = False
+
+# Development settings (SQLite fallback)
+DATABASE_URL = "sqlite:///database.db"
+ENVIRONMENT = "development"
+DEBUG = True
+```
+
+#### Frontend Configuration (`.env`)
+
+```env
+VITE_API_BASE_URL=http://localhost:8000
+VITE_WS_URL=ws://localhost:8000/ws/simulation
+VITE_APP_ENV=development
+```
+
+### Quick Start Scripts
+
+The repository includes a comprehensive startup script for Windows:
+
+**`start_dev.bat`**:
+```batch
+@echo off
+echo Starting SAIL DSS Development Environment...
+echo.
+
+cd /d %~dp0
+
+if not exist "backend\venv" (
+    echo Creating Python virtual environment...
+    cd backend
+    python -m venv venv
+    call venv\Scripts\activate
+    pip install -r requirements.txt
+    cd ..
+) else (
+    echo Activating existing virtual environment...
+    cd backend
+    call venv\Scripts\activate
+    cd ..
+)
+
+start cmd /k "cd backend && call venv\Scripts\activate && python app/main.py"
+
+timeout /t 2 /nobreak > nul
+
+start cmd /k "cd frontend && npm run dev"
+
+echo.
+echo SAIL DSS is starting up:
+echo - Backend API: http://localhost:8000 (FastAPI docs at /docs)
+echo - Frontend App: http://localhost:5173
+echo - WebSocket: ws://localhost:8000/ws/simulation
+echo.
+echo Press any key to close this window...
+pause > nul
+```
+
+### Default Login Credentials
+
+| Role | Username | Password | Access Level |
+|------|----------|----------|-------------|
+| Admin | admin@sail.com | admin123 (dev only) | Full system access |
+| Plant Operator | operator@sail.com | plant123 (dev only) | Plant operations and material management |
+| Logistics Planner | planner@sail.com | logistics123 (dev only) | Rake planning and optimization |
+| Viewer | viewer@sail.com | view123 (dev only) | Read-only access to dashboards |
+
+⚠️ **Security Note**: Default credentials are for development only. Configure secure authentication for production deployments.
+
+---
+
+## 🔧 Configuration Options
+
+### Environment Variables
+
+#### Backend Environment (.env file in backend/)
+```env
+# Database Configuration
+DATABASE_URL=postgresql://neondb_owner:...@ep-orange-base-adjy5moj-pooler.c-2.us-east-1.aws.neon.tech/ALL_DATABASE?sslmode=require&channel_binding=require
+DATABASE_USER=postgres
+DATABASE_PASSWORD=required_password
+DATABASE_NAME=all_database
+
+# Application Settings
+ENVIRONMENT=production  # or 'development'
+DEBUG=false
+PROJECT_NAME="SAIL DSS"
+
+# CORS Configuration
+CORS_ORIGINS=http://localhost:5173,https://yourdomain.com
+
+# ML Model Paths
+MODEL_PATH=app/ml/models/
+```
+
+#### Frontend Environment (.env file in frontend/)
+```env
+VITE_API_BASE_URL=https://api.yourdomain.com
+VITE_WS_URL=wss://api.yourdomain.com/ws/simulation
+VITE_APP_ENV=production
+LOG_LEVEL=info
+```
+
+### Database Migration
+
+```bash
+# Initialize Alembic (if not already done)
+cd backend
+alembic init alembic
+
+# Create migration
+alembic revision --autogenerate -m "Initial migration"
+
+# Apply migration
+alembic upgrade head
+```
+
+---
+
 5. **Fallback Mechanism**: Uses heuristic approaches if optimal solution not found
 6. **Solution Processing**: Extracts actionable plans and calculates KPIs
 
