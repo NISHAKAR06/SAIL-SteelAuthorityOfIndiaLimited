@@ -8,10 +8,10 @@ from app.services.order_service import get_order, get_all_orders, create_order, 
 
 router = APIRouter()
 
-@router.get("/orders/", response_model=List[Order])
+@router.get("/orders/")
 async def read_orders(
-    skip: int = 0, 
-    limit: int = 100, 
+    skip: int = 0,
+    limit: int = 100,
     status: Optional[str] = None,
     priority: Optional[int] = None,
     db: Session = Depends(get_db)
@@ -20,7 +20,7 @@ async def read_orders(
     Get all customer orders with optional filters
     """
     orders = get_all_orders(db, skip=skip, limit=limit, status=status, priority=priority)
-    return orders
+    return {"data": orders, "success": True, "message": f"Retrieved {len(orders)} orders"}
 
 @router.get("/orders/{order_id}", response_model=Order)
 async def read_order(
@@ -35,7 +35,7 @@ async def read_order(
         raise HTTPException(status_code=404, detail="Order not found")
     return order
 
-@router.post("/orders/add", response_model=Order)
+@router.post("/orders/add")
 async def add_order(
     order: OrderCreate,
     db: Session = Depends(get_db)
@@ -43,9 +43,10 @@ async def add_order(
     """
     Add a new customer order
     """
-    return create_order(db=db, order=order)
+    new_order = create_order(db=db, order=order)
+    return {"data": new_order, "success": True, "message": "Order created successfully"}
 
-@router.put("/orders/{order_id}", response_model=Order)
+@router.put("/orders/{order_id}")
 async def update_existing_order(
     order_id: str,
     order: OrderUpdate,
@@ -57,10 +58,11 @@ async def update_existing_order(
     db_order = get_order(db, order_id=order_id)
     if db_order is None:
         raise HTTPException(status_code=404, detail="Order not found")
-    
-    return update_order(db=db, order_id=order_id, order=order)
 
-@router.delete("/orders/{order_id}", response_model=dict)
+    updated_order = update_order(db=db, order_id=order_id, order=order)
+    return {"data": updated_order, "success": True, "message": "Order updated successfully"}
+
+@router.delete("/orders/{order_id}")
 async def delete_existing_order(
     order_id: str,
     db: Session = Depends(get_db)
@@ -71,6 +73,6 @@ async def delete_existing_order(
     db_order = get_order(db, order_id=order_id)
     if db_order is None:
         raise HTTPException(status_code=404, detail="Order not found")
-    
+
     delete_order(db=db, order_id=order_id)
     return {"success": True, "message": f"Order {order_id} deleted"}

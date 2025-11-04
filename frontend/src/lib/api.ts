@@ -170,30 +170,30 @@ class ApiClient {
 
   simulation = {
     getActiveRakes: async (): Promise<ApiResponse<SimulationRake[]>> => {
-      return this.request<SimulationRake[]>('/live-simulation/active-rakes');
+      return this.request<SimulationRake[]>('/simulation/active-rakes');
     },
 
     startSimulation: async (speed: number = 1): Promise<ApiResponse<{ success: boolean }>> => {
-      return this.request<{ success: boolean }>('/live-simulation/start', {
+      return this.request<{ success: boolean }>('/simulation/start', {
         method: 'POST',
         body: JSON.stringify({ speed }),
       });
     },
 
     pauseSimulation: async (): Promise<ApiResponse<{ success: boolean }>> => {
-      return this.request<{ success: boolean }>('/live-simulation/pause', {
+      return this.request<{ success: boolean }>('/simulation/pause', {
         method: 'POST',
       });
     },
 
     stopSimulation: async (): Promise<ApiResponse<{ success: boolean }>> => {
-      return this.request<{ success: boolean }>('/live-simulation/stop', {
+      return this.request<{ success: boolean }>('/simulation/stop', {
         method: 'POST',
       });
     },
 
     setSpeed: async (speed: number): Promise<ApiResponse<{ success: boolean }>> => {
-      return this.request<{ success: boolean }>('/live-simulation/speed', {
+      return this.request<{ success: boolean }>('/simulation/speed', {
         method: 'POST',
         body: JSON.stringify({ speed }),
       });
@@ -207,15 +207,45 @@ class ApiClient {
     },
   };
 
+  // Database management utilities
+  database = {
+    seedDatabase: async (): Promise<ApiResponse<any>> => {
+      return this.request<any>('/database/seed', {
+        method: 'POST',
+      });
+    },
+
+    getStats: async (): Promise<ApiResponse<any>> => {
+      return this.request<any>('/database/stats');
+    },
+  };
+
   orders = {
     getAll: async (): Promise<ApiResponse<any[]>> => {
       return this.request<any[]>('/orders');
     },
 
+    getById: async (id: string): Promise<ApiResponse<any>> => {
+      return this.request<any>(`/orders/${id}`);
+    },
+
     create: async (orderData: any): Promise<ApiResponse<any>> => {
-      return this.request<any>('/orders', {
+      return this.request<any>('/orders/add', {
         method: 'POST',
         body: JSON.stringify(orderData),
+      });
+    },
+
+    update: async (id: string, orderData: any): Promise<ApiResponse<any>> => {
+      return this.request<any>(`/orders/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(orderData),
+      });
+    },
+
+    delete: async (id: string): Promise<ApiResponse<any>> => {
+      return this.request<any>(`/orders/${id}`, {
+        method: 'DELETE',
       });
     },
   };
@@ -231,6 +261,45 @@ class ApiClient {
         body: JSON.stringify(allocationData),
       });
     },
+  };
+  
+  staticData = {
+    // Get list of available static files
+    getAvailableFiles: async (): Promise<string[]> => {
+      const response = await this.request<string[]>('/static-data/files');
+      return response.data;
+    },
+
+    // Get data from a specific file with optional limit
+    getFileData: async (fileName: string, limit?: number): Promise<any> => {
+      const queryParams = limit ? `?limit=${limit}` : '';
+      return this.request<any>(`/static-data/${fileName}${queryParams}`);
+    },
+
+    // Get summary of a specific file
+    getFileSummary: async (fileName: string): Promise<any> => {
+      return this.request<any>(`/static-data/summary/${fileName}`);
+    },
+
+    // Get current production inventory with updated dates
+    getCurrentProductionInventory: async (): Promise<any> => {
+      return this.request<any>('/static-data/production-inventory/current');
+    },
+
+    // Get current customer orders with updated dates
+    getCurrentCustomerOrders: async (): Promise<any> => {
+      return this.request<any>('/static-data/customer-orders/current');
+    },
+
+    // Get current rake status with updated dates
+    getCurrentRakeStatus: async (): Promise<any> => {
+      return this.request<any>('/static-data/rake-status/current');
+    },
+
+    // Get route transport info
+    getRouteTransportInfo: async (): Promise<any> => {
+      return this.request<any>('/route-transport-info');
+    }
   };
 }
 

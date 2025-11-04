@@ -1,3 +1,8 @@
+import sys
+import os
+# Add the parent directory to sys.path to make 'app' package importable
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -19,7 +24,8 @@ from app.routes import (
     inventory,
     ai_recommendations,
     live_simulation,
-    reports
+    reports,
+    static_data
 )
 
 # Setup logging
@@ -60,6 +66,7 @@ app.include_router(inventory.router, prefix="/api", tags=["Inventory"])
 app.include_router(ai_recommendations.router, prefix="/api", tags=["AI Recommendations"])
 app.include_router(live_simulation.router, prefix="/api", tags=["Live Simulation"])
 app.include_router(reports.router, prefix="/api", tags=["Reports"])
+app.include_router(static_data.router, prefix="/api", tags=["Static Data"])
 
 # Root endpoint
 @app.get("/", tags=["Root"])
@@ -103,7 +110,7 @@ class SimulationConnectionManager:
                         
                         active_rakes.append({
                             "id": rake.id,
-                            "from": rake.origin or "Bokaro",
+                            "from": rake.origin_plant or "Bokaro",
                             "to": destination,
                             "progress": rake.transit_progress or 0,
                             "status": rake.status,

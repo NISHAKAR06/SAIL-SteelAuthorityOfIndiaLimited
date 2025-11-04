@@ -32,14 +32,17 @@ def init_db():
     try:
         # Import all models to ensure they're registered with Base
         # This must be imported here to avoid circular imports
-        from app.models import rake, order, inventory, optimization
-        
+        # Import in dependency order to avoid relationship issues
+        from app.models import cost_parameters, route_transport
+        from app.models import rake
+        from app.models import order, inventory, optimization
+
         # Check if tables exist before creating them
         inspector = inspect(engine)
-        
+
         existing_tables = inspector.get_table_names()
         logger.info(f"Existing tables: {existing_tables}")
-        
+
         # Create tables if they don't exist
         Base.metadata.create_all(bind=engine)
         logger.info("Database tables created successfully")

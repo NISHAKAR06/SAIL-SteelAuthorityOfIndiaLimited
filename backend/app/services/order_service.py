@@ -10,7 +10,7 @@ def get_order(db: Session, order_id: str):
     """
     Get an order by ID
     """
-    return db.query(Order).filter(Order.order_id == order_id).first()
+    return db.query(Order).filter(Order.id == order_id).first()
 
 def get_all_orders(
     db: Session, 
@@ -37,11 +37,10 @@ def create_order(db: Session, order: OrderCreate):
     Create a new order
     """
     order_dict = order.dict()
-    
-    # Generate order_id if not provided
-    if not order_dict.get("order_id"):
-        order_dict["order_id"] = f"ORD-{str(uuid.uuid4())[:8].upper()}"
-    
+
+    # Remove order_id if it exists since the model uses id as primary key
+    order_dict.pop("order_id", None)
+
     db_order = Order(**order_dict)
     db.add(db_order)
     db.commit()

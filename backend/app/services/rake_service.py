@@ -12,7 +12,7 @@ def get_rake(db: Session, rake_id: str):
     """
     Get a rake by ID
     """
-    return db.query(Rake).filter(Rake.rake_id == rake_id).first()
+    return db.query(Rake).filter(Rake.id == rake_id).first()
 
 def get_all_rakes(db: Session, skip: int = 0, limit: int = 100, status: Optional[str] = None):
     """

@@ -37,9 +37,9 @@ wheels/
 .pytest_cache/
 
 # SQLite files
-*.db
-*.sqlite
-*.sqlite3
+# *.db
+# *.sqlite
+# *.sqlite3
 
 # Environment variables
 .env
@@ -85,3 +85,22 @@ htmlcov/
 .coverage
 .coverage.*
 .cache/
+
+# Testing files
+test_*.py
+*_test.py
+tests/
+backend/test_*.py
+frontend/test_*.js
+frontend/test_*.ts
+frontend/test_*.jsx
+frontend/test_*.tsx
+__tests__/
+*.test.*
+*.spec.*
+
+# Temporary development files
+temp/
+tmp/
+*.tmp
+*.bak

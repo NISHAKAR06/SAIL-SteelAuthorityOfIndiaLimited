@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import DatabaseSeeder from "@/components/DatabaseSeeder";
 // Steel plant themed background with subtle styling - no harsh shadows
 const steelPlantBg = `linear-gradient(135deg,
   hsl(var(--background)) 0%,
